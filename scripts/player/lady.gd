@@ -8,6 +8,7 @@ const JUMP_VELOCITY = 4.5
 @onready var playback = animation_tree.get("parameters/playback")
 # Certifique-se de que o seu modelo 3D está dentro de um Node3D chamado "Visual"
 @onready var visual_node = $Lady_Caracter
+@onready var step: AudioStreamPlayer3D = $sounds/step
 
 func _physics_process(delta: float) -> void:
 	
@@ -42,8 +43,12 @@ func _physics_process(delta: float) -> void:
 		if playback.get_current_node() != "jump":
 			if Input.is_action_pressed("ui_run"):
 				if playback.get_current_node() != "run": playback.travel("run")
+				step.pitch_scale = 1.7
+				if !step.playing: step.play()
 			else:
-				playback.travel("walk")
+				if playback.get_current_node() != "walk": playback.travel("walk")
+				step.pitch_scale = 1.0
+				if !step.playing: step.play()
 			
 		# --- LÓGICA DE VIRAR ---
 		# Se input_dir for 1 (Direita/Z+), o ângulo é 0
@@ -52,7 +57,7 @@ func _physics_process(delta: float) -> void:
 		
 		if visual_node:
 			visual_node.rotation.y = lerp_angle(visual_node.rotation.y, target_rotation, 0.2)
-			
+
 	else:
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 		if playback.get_current_node() != "attack_1" and playback.get_current_node() != "jump" and playback.get_current_node() != "idle":
@@ -61,5 +66,10 @@ func _physics_process(delta: float) -> void:
 	# Trava o eixo X e a rotação do nó pai (Câmera)
 	velocity.x = 0
 	rotation.y = 0 
+	
+	# para o step por um instante
+	if !Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_right"):
+		step.stop()
+	
 	
 	move_and_slide()

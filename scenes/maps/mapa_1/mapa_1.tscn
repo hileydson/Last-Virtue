@@ -3,8 +3,6 @@
 [ext_resource type="Script" uid="uid://xe6d7fjruexh" path="res://scripts/mapa_1/mapa_1.gd" id="1_mcv2y"]
 [ext_resource type="PackedScene" uid="uid://cp2kbt6dwrqo1" path="res://scenes/player/lady.tscn" id="2_c3ttl"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3ttl"]
-
 [node name="mapa_1" type="Node3D" unique_id=1050225075]
 script = ExtResource("1_mcv2y")
 
@@ -17,4 +15,3 @@ use_collision = true
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1860335643]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.102609634, 0, -9.791481)
 size = Vector3(0.9672203, 1, 119.703255)
-material = SubResource("StandardMaterial3D_c3ttl")

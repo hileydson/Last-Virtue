@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://ymqh0m1e65xg"]
+
+[ext_resource type="Script" uid="uid://dlrsqlu8jrh3" path="res://scripts/config/language.gd" id="1_fj8og"]
+
+[node name="language" type="Node2D" unique_id=1275409055]
+script = ExtResource("1_fj8og")
+
+[node name="Control" type="Control" parent="." unique_id=2117912109]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=789200965]
+layout_mode = 0
+offset_left = 788.0
+offset_top = 469.0
+offset_right = 979.0
+offset_bottom = 544.0
+
+[node name="play" type="Button" parent="Control/VBoxContainer" unique_id=1736645999]
+layout_mode = 2
+text = "PLAY"
+
+[node name="quit" type="Button" parent="Control/VBoxContainer" unique_id=1836094317]
+layout_mode = 2
+text = "QUIT"
+
+[connection signal="pressed" from="Control/VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/quit" to="." method="_on_quit_pressed"]

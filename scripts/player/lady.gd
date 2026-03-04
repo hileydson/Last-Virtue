@@ -12,6 +12,9 @@ const JUMP_VELOCITY = 4.5
 
 func _physics_process(delta: float) -> void:
 	
+	if GlobalSettings.in_cutscene:
+		return
+	
 	# 1. Gravidade
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -45,7 +48,7 @@ func _physics_process(delta: float) -> void:
 		velocity.z = input_dir * current_speed
 		
 		# Animações
-		if playback.get_current_node() != "jump":
+		if playback.get_current_node() != "jump" and playback.get_current_node() != "attack_1":
 			if Input.is_action_pressed("ui_run"):
 				if playback.get_current_node() != "run": playback.travel("run")
 				step.pitch_scale = 1.7

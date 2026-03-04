@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Last Virtue"
+run/main_scene="uid://ymqh0m1e65xg"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalSettings="*uid://dqsa8rmbwqkyt"
 
 [display]
 

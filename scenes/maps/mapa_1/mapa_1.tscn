@@ -2,6 +2,30 @@
 
 [ext_resource type="Script" uid="uid://xe6d7fjruexh" path="res://scripts/mapa_1/mapa_1.gd" id="1_mcv2y"]
 [ext_resource type="PackedScene" uid="uid://cp2kbt6dwrqo1" path="res://scenes/player/lady.tscn" id="2_c3ttl"]
+[ext_resource type="PackedScene" uid="uid://hxoi4m622lqo" path="res://assets/3d_models/mapa_1/casa_abandonada.glb" id="3_2v7ax"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_2v7ax"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v7ax"]
+transparency = 1
+albedo_color = Color(0.827451, 0.4509804, 0.44313726, 0)
+albedo_texture = SubResource("ImageTexture_2v7ax")
+metallic = 0.3
+
+[sub_resource type="Environment" id="Environment_2v7ax"]
+background_mode = 1
+background_color = Color(0.16924527, 0.1692453, 0.1692453, 1)
+background_energy_multiplier = 1.33
+ambient_light_color = Color(0.33660764, 0.3366076, 0.3366076, 1)
+ambient_light_energy = 2.2
+tonemap_mode = 3
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_ambient_inject = 1.05
 
 [node name="mapa_1" type="Node3D" unique_id=1050225075]
 script = ExtResource("1_mcv2y")
@@ -13,5 +37,65 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023190022, 0.7767837, -69.1
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1860335643]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.102609634, 0, -9.791481)
-size = Vector3(0.9672203, 1, 119.703255)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.102609634, 0, -67.208466)
+size = Vector3(0.9672203, 1, 4.869279)
+material = SubResource("StandardMaterial3D_2v7ax")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1634886532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.102609634, -2.2723112, -54.7637)
+size = Vector3(0.9672203, 1, 20.278824)
+material = SubResource("StandardMaterial3D_2v7ax")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D" unique_id=750333773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.102609634, -2.742954, -62.138184)
+size = Vector3(0.9672203, 1, 3.5890055)
+material = SubResource("StandardMaterial3D_2v7ax")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1556672809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10461044, 2.211975, -70.0988)
+size = Vector3(1, 5.42395, 1)
+material = SubResource("StandardMaterial3D_2v7ax")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=2068439451]
+transform = Transform3D(1, 0, 0, 0, 0.775705, 0.63109565, 0, -0.63109565, 0.775705, 0.10461044, -1.9806616, -63.6289)
+size = Vector3(1, 5.42395, 1)
+material = SubResource("StandardMaterial3D_2v7ax")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=877574841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10461044, -0.5093355, -48.32028)
+size = Vector3(1, 5.42395, 1)
+material = SubResource("StandardMaterial3D_2v7ax")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1123681649]
+environment = SubResource("Environment_2v7ax")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1913863150 instance=ExtResource("3_2v7ax")]
+transform = Transform3D(-0.06326081, 0, -0.99799705, 0, 1, 0, 0.99799705, 0, -0.06326081, 13.541374, 0.50702477, -58.203804)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1296640857]
+transform = Transform3D(0.94622093, 0.006210774, 0.32346144, -0.32352108, 0.018165013, 0.94604653, 0, -0.9998157, 0.019197432, 1.4482594, 4.7692714, -60.68592)
+light_color = Color(0.96598417, 0.8332917, 0.59120685, 1)
+light_energy = 4.349
+shadow_enabled = true
+spot_range = 8.512
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=21457529]
+transform = Transform3D(0.946221, 0.006210774, 0.32346147, -0.3235211, 0.018165013, 0.9460466, 0, -0.9998157, 0.019197432, 9.535776, 3.9504514, -56.355385)
+light_color = Color(0.96598417, 0.8332917, 0.59120685, 1)
+light_energy = 4.349
+shadow_enabled = true
+spot_range = 8.512
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="." unique_id=349938136]
+transform = Transform3D(0.946221, 0.006210774, 0.32346147, -0.3235211, 0.018165013, 0.9460466, 0, -0.9998157, 0.019197432, 14.530351, 1.9014993, -61.45052)
+light_color = Color(0.96598417, 0.8332917, 0.59120685, 1)
+light_energy = 4.349
+shadow_enabled = true
+spot_range = 8.512
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=727123120]
+transform = Transform3D(1, 0, 0, 0, -0.009197746, 0.99995774, 0, -0.99995774, -0.009197746, 0, 10.026707, -60.583313)
+light_color = Color(0.3876327, 0.2985538, 0.14231923, 1)
+shadow_enabled = true
+
+[editable path="Sketchfab_Scene"]

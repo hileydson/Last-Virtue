@@ -20,9 +20,14 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and playback.get_current_node() != "jump":
 		velocity.y = JUMP_VELOCITY
 		playback.travel("jump")
+	
+	# --- ADIÇÃO PARA PULO VARIÁVEL ---
+	if Input.is_action_just_released("ui_accept") and velocity.y > 0:
+		velocity.y *= 0.5 # Reduz a força pela metade ao soltar o botão
+	# ---------------------------------
 		
 	#corta animacao de jump ao chegar ao chao
-	if  is_on_floor() and (playback.get_current_node() == "jump" or playback.get_current_node() == "attack_1"):
+	if is_on_floor() and (playback.get_current_node() == "jump" or playback.get_current_node() == "attack_1"):
 		playback.travel("idle")
 		
 	#corta a animacao de jump para chamar attack

@@ -10,13 +10,22 @@ const JUMP_VELOCITY = 4.5
 @onready var visual_node = $Lady_Caracter
 
 func _physics_process(delta: float) -> void:
+	
 	# 1. Gravidade
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
 	# 2. Pulo
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and playback.get_current_node() != "jump":
 		velocity.y = JUMP_VELOCITY
+		playback.travel("jump")
+		
+	#corta animacao de jump ao chegar ao chao
+	if  is_on_floor() and (playback.get_current_node() == "jump" or playback.get_current_node() == "attack_1"):
+		playback.travel("idle")
+		
+	#corta a animacao de jump para chamar attack
+	#if playback.get_current_node() == "jump" and Input.is_action_just_pressed("ui_attack_1"):
 
 	# 3. Ataque
 	if Input.is_action_just_pressed("ui_attack_1"):
@@ -30,10 +39,11 @@ func _physics_process(delta: float) -> void:
 		velocity.z = input_dir * current_speed
 		
 		# Animações
-		if Input.is_action_pressed("ui_run"):
-			playback.travel("run")
-		else:
-			playback.travel("walk")
+		if playback.get_current_node() != "jump":
+			if Input.is_action_pressed("ui_run"):
+				if playback.get_current_node() != "run": playback.travel("run")
+			else:
+				playback.travel("walk")
 			
 		# --- LÓGICA DE VIRAR ---
 		# Se input_dir for 1 (Direita/Z+), o ângulo é 0
@@ -45,7 +55,7 @@ func _physics_process(delta: float) -> void:
 			
 	else:
 		velocity.z = move_toward(velocity.z, 0, current_speed)
-		if playback.get_current_node() != "attack_1":
+		if playback.get_current_node() != "attack_1" and playback.get_current_node() != "jump" and playback.get_current_node() != "idle":
 			playback.travel("idle")
 
 	# Trava o eixo X e a rotação do nó pai (Câmera)

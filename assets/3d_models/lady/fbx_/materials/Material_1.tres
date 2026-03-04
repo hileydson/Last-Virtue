@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c6x474p6s6h6f"]
+
+[ext_resource type="Texture2D" uid="uid://cg5kdid8pjfgh" path="res://assets/3d_models/lady/fbx_/Meshy_AI_Meshy_Merged_Animations_0.png" id="1_mr44a"]
+
+[resource]
+resource_name = "Material_1"
+transparency = 4
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_mr44a")
+emission_enabled = true
+emission_texture = ExtResource("1_mr44a")

@@ -1,5 +1,7 @@
 extends Node
 
+
+signal acabou_cutscene
 var in_cutscene:bool = false
 
 # Called when the node enters the scene tree for the first time.

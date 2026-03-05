@@ -31,13 +31,16 @@ func _ready() -> void:
 	await get_tree().create_timer(2.0).timeout
 	camera_cena_1.make_current()
 	
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(5.0).timeout
 	camera_cena_2.make_current()
 	eu_frase_2.play()
 
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(6.0).timeout
 	camera_3d.make_current()
 	GlobalSettings.in_cutscene = false
+	
+	await get_tree().create_timer(12.0).timeout
+	GlobalSettings.acabou_cutscene.emit("ITS_OVER")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

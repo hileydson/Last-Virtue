@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bdxa2xnax1rik"]
+
+[ext_resource type="Script" uid="uid://dvgiyjjk6s3bd" path="res://scripts/config/fade.gd" id="1_ut846"]
+
+[node name="fade" type="ColorRect" unique_id=190840365]
+visible = false
+offset_right = 1928.0
+offset_bottom = 1087.0
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_ut846")

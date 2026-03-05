@@ -1,58 +1,90 @@
 extends CharacterBody3D
 
-const SPEED = 1.0  # Aumentei um pouco a velocidade para o 3D livre
-const WANDER_RANGE = 5.0 # Raio de alcance da caminhada aleatória
+@export var movement_speed: float = 2.0
+@export var wander_radius: float = 8.0
+@export var idle_time: float = 4.0
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var timer: Timer = $Timer
-@onready var visual_node = $eu
+@onready var animation_tree: AnimationTree = $eu/AnimationTree
+@onready var playback = animation_tree.get("parameters/playback")
 
-func _ready() -> void:
-	# Importante: O NavMesh precisa estar assado (baked) na cena
-	call_deferred("setup_target")
+@onready var attack: AudioStreamPlayer3D = $eu_attack
 
-func setup_target() -> void:
-	# Escolhe um ponto aleatório em um círculo ao redor da posição atual
-	var random_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-	var random_distance = randf_range(2.0, WANDER_RANGE)
+var target_position: Vector3
+var is_waiting: bool = false
+
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+func _ready():
+	# Define o primeiro destino assim que começar
+	is_waiting=true
+	await GlobalSettings.acabou_cutscene
+	is_waiting=false
+	_select_new_random_target()
+
+func _physics_process(delta):
 	
-	var target_pos = global_position + Vector3(random_direction.x * random_distance, 0, random_direction.y * random_distance)
-	
-	# O NavigationAgent3D encontrará o ponto mais próximo no NavMesh
-	nav_agent.target_position = target_pos
-
-func _physics_process(delta: float) -> void:
-	return
-	# 1. Gravidade
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# 2. Navegação
-	if nav_agent.is_navigation_finished():
-		if timer.is_stopped():
-			timer.start(randf_range(1.0, 3.0)) # Tempo de espera antes de ir para o próximo ponto
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
-		move_and_slide()
+	if is_waiting:
 		return
 
-	# Calcula a direção para o próximo ponto do caminho
+	if nav_agent.is_navigation_finished():
+		_start_idle_timer()
+		return
+
+	# Calcula a próxima posição no caminho
 	var next_path_pos = nav_agent.get_next_path_position()
-	var direction = global_position.direction_to(next_path_pos)
+	var current_pos = global_position
 	
-	# Removemos a trava do direction.x = 0
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-		
-		# Lógica de rotação suave para olhar na direção do movimento
-		if visual_node:
-			var look_direction = Vector2(velocity.z, velocity.x) # Invertido para o sistema de coordenadas do Godot
-			var target_angle = look_direction.angle()
-			visual_node.rotation.y = lerp_angle(visual_node.rotation.y, target_angle, 0.1)
+	# Direção e Movimentação
+	var new_velocity = (next_path_pos - current_pos).normalized() * movement_speed
+	velocity = new_velocity
 	
+	# Rotaciona o inimigo para olhar para onde está indo (suavemente)
+	if velocity.length() > 0.1:
+		var look_target = Vector3(next_path_pos.x, global_position.y, next_path_pos.z)
+		look_at(look_target, Vector3.UP)
+		rotate_y(PI) # Ajuste se o modelo estiver de costas
+
+	# Aplica gravidade se não estiver no chão
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	else:
+		velocity.y = -0.1 # Uma pequena força para baixo para manter o contato
+
 	move_and_slide()
 
-# Quando o tempo de espera acaba, escolhe um novo destino
+func _select_new_random_target():
+	#volta a andar
+	playback.travel("walk")
+	
+	# Gera um ponto aleatório dentro de um círculo no plano XZ
+	var random_direction = Vector3(
+		randf_range(-1, 1),
+		0,
+		randf_range(-1, 1)
+	).normalized()
+	
+	target_position = global_position + (random_direction * wander_radius)
+	
+	# Define o alvo no NavigationAgent
+	nav_agent.target_position = target_position
+
+func _start_idle_timer():
+	
+	#faz o movimento crazy
+	playback.travel("funny")
+	attack.play()
+	
+	is_waiting = true
+	velocity = Vector3.ZERO
+	# Cria um timer temporário para esperar antes de andar de novo
+	await get_tree().create_timer(idle_time).timeout
+
+	is_waiting = false
+	_select_new_random_target()
+
 func _on_timer_timeout() -> void:
-	setup_target()
+	pass # Replace with function body.
+
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	playback.travel("talk")

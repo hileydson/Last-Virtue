@@ -9,6 +9,9 @@ const JUMP_VELOCITY = 4.5
 # Certifique-se de que o seu modelo 3D está dentro de um Node3D chamado "Visual"
 @onready var visual_node = $Lady_Caracter
 @onready var step: AudioStreamPlayer3D = $sounds/step
+@onready var punch: AudioStreamPlayer3D = $sounds/punch
+@onready var jump: AudioStreamPlayer3D = $sounds/jump
+
 
 func _physics_process(delta: float) -> void:
 	
@@ -23,6 +26,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and playback.get_current_node() != "jump":
 		velocity.y = JUMP_VELOCITY
 		playback.travel("jump")
+		if !jump.playing: jump.play()
 	
 	# --- ADIÇÃO PARA PULO VARIÁVEL ---
 	if Input.is_action_just_released("ui_accept") and velocity.y > 0:
@@ -39,6 +43,7 @@ func _physics_process(delta: float) -> void:
 	# 3. Ataque
 	if Input.is_action_just_pressed("ui_attack_1"):
 		playback.travel("attack_1")
+		if !punch.playing: punch.play()
 
 	# 4. Movimento Lateral (Eixo Z)
 	var input_dir := Input.get_axis("ui_left", "ui_right")

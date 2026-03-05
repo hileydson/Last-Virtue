@@ -1,20 +1,40 @@
 [gd_scene format=3 uid="uid://ymqh0m1e65xg"]
 
 [ext_resource type="Script" uid="uid://dlrsqlu8jrh3" path="res://scripts/config/language.gd" id="1_fj8og"]
+[ext_resource type="VideoStream" uid="uid://b55eabj25pg6x" path="res://assets/videos/intro_test.ogv" id="2_h7k41"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h7k41"]
+font_size = 75
+font_color = Color(1, 0, 0.59607846, 1)
 
 [node name="language" type="Node2D" unique_id=1275409055]
 script = ExtResource("1_fj8og")
 
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=225781739]
+offset_left = 160.0
+offset_top = 4.0
+offset_right = 1023.0
+offset_bottom = 1081.0
+stream = ExtResource("2_h7k41")
+speed_scale = 0.481
+autoplay = true
+expand = true
+loop = true
+
 [node name="Control" type="Control" parent="." unique_id=2117912109]
 layout_mode = 3
 anchors_preset = 0
+offset_left = 438.0
+offset_top = 10.0
+offset_right = 438.0
+offset_bottom = 10.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=789200965]
 layout_mode = 0
-offset_left = 788.0
-offset_top = 469.0
-offset_right = 979.0
-offset_bottom = 544.0
+offset_left = 845.0
+offset_top = 514.0
+offset_right = 1036.0
+offset_bottom = 589.0
 
 [node name="play" type="Button" parent="Control/VBoxContainer" unique_id=1736645999]
 layout_mode = 2
@@ -23,6 +43,15 @@ text = "PLAY"
 [node name="quit" type="Button" parent="Control/VBoxContainer" unique_id=1836094317]
 layout_mode = 2
 text = "QUIT"
+
+[node name="Label" type="Label" parent="." unique_id=87343323]
+offset_left = 1181.0
+offset_top = 153.0
+offset_right = 1265.0
+offset_bottom = 202.0
+text = "Last Virtue
+3D Edition"
+label_settings = SubResource("LabelSettings_h7k41")
 
 [connection signal="pressed" from="Control/VBoxContainer/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/quit" to="." method="_on_quit_pressed"]
